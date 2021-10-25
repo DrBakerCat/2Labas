@@ -15,29 +15,35 @@ namespace WindowsFormsApp1
         public Form1()
         {
             InitializeComponent();
+            listBox1.Font = new Font(FontFamily.GenericMonospace, listBox1.Font.Size);
+        }
+
+        public string PadBoth(string source, int length, char padChar)
+        {
+            int spaces = length - source.Length;
+            int padLeft = spaces / 2 + source.Length;
+            return source.PadLeft(padLeft, padChar).PadRight(length, padChar);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
-        { //Reiksmes
-            int x; //intervalo pradzia
-            int y; //intervalo pabaiga
+        {
+            int x;
+            int y;
             int fakt = 0;
-            if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox2.Text))
+            if (!string.IsNullOrWhiteSpace(textBox1.Text) && !string.IsNullOrWhiteSpace(textBox2.Text))
             {
-                resultbox.Text = "Skaiciai";
-            }
-            else
-            {
-                x = Convert.ToInt32(textBox1.Text); //reiksmiu priskyrimas
-                y = Convert.ToInt32(textBox2.Text); 
-                //Kaip bus viskas vaizduojama Darau su FOR 
+                x = Convert.ToInt32(textBox1.Text);
+                y = Convert.ToInt32(textBox2.Text);
+
+                int length = 21;
+
                 listBox1.Items.Clear();
-                listBox1.Items.Add("=======FOR=======");
-                listBox1.Items.Add("|   x   |   y   |");
-                listBox1.Items.Add("=================");
+                listBox1.Items.Add(PadBoth("FOR", (length * 2) + 3, '='));
+                listBox1.Items.Add("|" + PadBoth("x", length, ' ') + "|" + PadBoth("y", length, ' ') + "|");
+                listBox1.Items.Add(PadBoth("", (length * 2) + 3, '='));
                 for (int i = x; i <= y; i++)
                 {
-                    //Faktorialas
                     if (i % 2 == 0)
                     {
                         fakt = i;
@@ -46,13 +52,12 @@ namespace WindowsFormsApp1
                             fakt = fakt * m;
 
                         }
-                        listBox1.Items.Add("|   " + Convert.ToString(i) + "   |   " + Convert.ToString(fakt) + "   |");
+                        listBox1.Items.Add("|" + PadBoth(Convert.ToString(i), length, ' ')  + "|" + PadBoth(Convert.ToString(fakt), length, ' ')  + "|");
                     }
 
                 }
                 
-                listBox1.Items.Add("=================");
-                
+                listBox1.Items.Add(PadBoth("", (length * 2) + 3, '='));
             }
         }
 
